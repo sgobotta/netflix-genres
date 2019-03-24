@@ -40,7 +40,6 @@ import genresData from '../../public/genres.json'
 
 export default {
   created () {
-    console.log('PROCESS ENV', process)
     this.genres = genresData
   },
   data () {
