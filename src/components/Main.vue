@@ -36,11 +36,26 @@
 </template>
 
 <script>
-import genresData from '../../public/genres.json'
+import axios from 'axios'
+
+const {
+  VUE_APP_API_URL,
+  VUE_APP_API_URL_PORT
+} = process.env
 
 export default {
   created () {
-    this.genres = genresData
+    const url = `${VUE_APP_API_URL}:${VUE_APP_API_URL_PORT}/genres`
+    axios.get(url)
+      .then(response => {
+        const { data } = response
+        this.genres = data
+      })
+      .catch(error => {
+        // eslint-disable-next-line
+        console.error(error)
+        this.genres = []
+      })
   },
   data () {
     return {
