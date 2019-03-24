@@ -5,9 +5,8 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.VUE_APP_BASE_NETFLIX_GENRE_URL': JSON.stringify(process.env.VUE_APP_BASE_NETFLIX_GENRE_URL),
         'process.env.VUE_APP_API_URL': JSON.stringify(process.env.VUE_APP_API_URL),
-        'process.env.VUE_APP_API_URL_PORT': JSON.stringify(process.env.VUE_APP_API_URL_PORT)
+        'process.env.VUE_APP_BASE_NETFLIX_GENRE_URL': JSON.stringify(process.env.VUE_APP_BASE_NETFLIX_GENRE_URL)
       })
     ],
     resolve: {

@@ -45,14 +45,13 @@ import axios from 'axios'
 
 const {
   VUE_APP_BASE_NETFLIX_GENRE_URL,
-  VUE_APP_API_URL,
-  VUE_APP_API_URL_PORT
+  VUE_APP_API_URL
 } = process.env
 
 export default {
   name: 'Main',
   created () {
-    const url = `${VUE_APP_API_URL}:${VUE_APP_API_URL_PORT}/genres`
+    const url = `${VUE_APP_API_URL}genres`
     axios.get(url)
       .then(response => {
         const { data } = response
