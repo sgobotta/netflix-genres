@@ -2,13 +2,13 @@
   <v-card>
     <v-card-title>
       <div class="header">
-        <p class="header-title">Géneros Netflix <span class="carita"><span class="manitos">ლ</span>(╹◡╹<span class="manitos">ლ</span>)</span></p>
+        <p class="header-title">{{uiContent.HOME_TITLE}} <span class="carita"><span class="manitos">ლ</span>(╹◡╹<span class="manitos">ლ</span>)</span></p>
       </div>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="search"
-        label="Buscar géneros por palabra"
+        :label="uiContent.HOME_SEARCH_GENRE_LABEL"
         single-line
         hide-details
       ></v-text-field>
@@ -17,23 +17,25 @@
       :headers="headers"
       :items="genres"
       :search="search"
-      :rows-per-page-items="[20]"
+      :rows-per-page-items="[300]"
       :disable-initial-sort="true"
     >
       <template slot="items" slot-scope="props">
         <td class="text-xs-left">
-          <p class="genre-name">{{ props.item.name }}</p>
+          <a class="genre-link" :href="`${baseNetflixUrl}${props.item.genreId}`" target="_blank">
+            <p class="genre-name">{{ props.item.name }}</p>
+          </a>
         </td>
         <td class="text-xs-right">
           <a class="genre-link" :href="`${baseNetflixUrl}${props.item.genreId}`" target="_blank"><v-icon color="green darken-2">videocam</v-icon></a>
         </td>
       </template>
       <v-alert slot="no-results" :value="true" color="purple darken-2" icon="warning">
-        <p class="header-title">La búsqueda "{{ search }}" no arrojó resultados. <span class="carita">(<span class="manitos">╯</span>°□°)<span class="manitos">╯</span>︵<span class="mesita"> ┻━┻</span></span></p>
+        <p class="header-title">{{uiContent.HOME_SEARCH_FAILURE.with(search)}}<span class="carita"> (<span class="manitos">╯</span>°□°)<span class="manitos">╯</span>︵<span class="mesita"> ┻━┻</span></span></p>
       </v-alert>
       <template v-slot:no-data>
         <v-alert :value="true" type="error" color="red darken-2" icon="warning">
-          <p class="header-title">Se habrá caído el server <span class="carita"><span class="manitos">ლ</span>(ಠ益ಠ<span class="manitos">ლ</span>)</span></p>
+          <p class="header-title">{{uiContent.HOME_NO_DATA}}<span class="carita"><span class="manitos">ლ</span>(ಠ益ಠ<span class="manitos">ლ</span>)</span></p>
         </v-alert>
       </template>
     </v-data-table>
@@ -50,6 +52,12 @@ const {
 
 export default {
   name: 'Main',
+  props: {
+    uiContent: {
+      type: Object,
+      required: true
+    }
+  },
   created () {
     const url = `${VUE_APP_API_URL}genres`
     axios.get(url)
@@ -69,18 +77,18 @@ export default {
       search: '',
       headers: [
         {
-          text: 'Género',
-          align: 'center',
+          text: this.uiContent.HOME_COLUMN_TITLE_GENRE,
+          align: 'left',
           sortable: true,
           value: 'name',
-          width: '70%'
+          width: '90%'
         },
         {
-          text: 'Link',
+          text: this.uiContent.HOME_COLUMN_TITLE_LINK,
           align: 'right',
           sortable: false,
           value: 'link',
-          width: '30%'
+          width: '10%'
         }
       ],
       genres: []
@@ -192,6 +200,10 @@ li {
 }
 a {
   color: #42b983;
+}
+
+p {
+  margin: 0;
 }
 
 </style>
