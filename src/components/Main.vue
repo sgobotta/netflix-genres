@@ -25,7 +25,7 @@
           <p class="genre-name">{{ props.item.name }}</p>
         </td>
         <td class="text-xs-right">
-          <a class="genre-link" :href='props.item.link' target="_blank"><v-icon color="green darken-2">videocam</v-icon></a>
+          <a class="genre-link" :href="`${baseNetflixUrl}${props.item.genreId}`" target="_blank"><v-icon color="green darken-2">videocam</v-icon></a>
         </td>
       </template>
       <v-alert slot="no-results" :value="true" color="purple darken-2" icon="warning">
@@ -44,11 +44,13 @@
 import axios from 'axios'
 
 const {
+  VUE_APP_BASE_NETFLIX_GENRE_URL,
   VUE_APP_API_URL,
   VUE_APP_API_URL_PORT
 } = process.env
 
 export default {
+  name: 'Main',
   created () {
     const url = `${VUE_APP_API_URL}:${VUE_APP_API_URL_PORT}/genres`
     axios.get(url)
@@ -64,6 +66,7 @@ export default {
   },
   data () {
     return {
+      baseNetflixUrl: VUE_APP_BASE_NETFLIX_GENRE_URL,
       search: '',
       headers: [
         {
