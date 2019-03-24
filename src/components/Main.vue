@@ -28,9 +28,14 @@
           <a class="genre-link" :href='props.item.link' target="_blank"><v-icon color="green darken-2">videocam</v-icon></a>
         </td>
       </template>
-      <v-alert slot="no-results" :value="true" color="error" icon="warning">
-        La búsqueda "{{ search }}" no arrojó resultados.
+      <v-alert slot="no-results" :value="true" color="purple darken-2" icon="warning">
+        <p class="header-title">La búsqueda "{{ search }}" no arrojó resultados. <span class="carita">(<span class="manitos">╯</span>°□°)<span class="manitos">╯</span>︵<span class="mesita"> ┻━┻</span></span></p>
       </v-alert>
+      <template v-slot:no-data>
+        <v-alert :value="true" type="error" color="red darken-2" icon="warning">
+          <p class="header-title">Se habrá caído el server <span class="carita"><span class="manitos">ლ</span>(ಠ益ಠ<span class="manitos">ლ</span>)</span></p>
+        </v-alert>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -51,9 +56,9 @@ export default {
         const { data } = response
         this.genres = data
       })
-      .catch(error => {
+      .catch(() => {
         // eslint-disable-next-line
-        console.error(error)
+        console.error('Server down =(')
         this.genres = []
       })
   },
@@ -138,6 +143,13 @@ i"T$P^T888aaa.._                   /   .-'\. ./'-.   \                    _..eee
   font-weight: bolder;
 }
 .manitos {
+  animation: MoveUpDown 1s linear infinite;
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
+
+.mesita {
   animation: MoveUpDown 1s linear infinite;
   position: relative;
   left: 0;
